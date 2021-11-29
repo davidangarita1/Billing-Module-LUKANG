@@ -1,7 +1,6 @@
 package co.com.sofka.BillingModule.controllers;
 
 import co.com.sofka.BillingModule.models.Client;
-import co.com.sofka.BillingModule.models.Product;
 import co.com.sofka.BillingModule.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
