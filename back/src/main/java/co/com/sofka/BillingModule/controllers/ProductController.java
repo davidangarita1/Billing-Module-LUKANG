@@ -17,6 +17,14 @@ public class ProductController {
         return service.list();
     }
 
+    @GetMapping("api/productname")
+    public Product getByNames(@RequestBody Product name) {
+        Product product = service.getByName(name);
+        if(product != null)  {
+            return this.service.getByName(name);
+        } return null;
+    }
+
     @PostMapping(value = "api/product")
     public Product save(@RequestBody Product product){
         return service.save(product);
