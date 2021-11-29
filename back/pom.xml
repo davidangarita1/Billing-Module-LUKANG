@@ -11,8 +11,9 @@
 	<groupId>co.com.sofka</groupId>
 	<artifactId>BillingModule</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>back</name>
-	<description>Billing Module Crud</description>
+	<packaging>war</packaging>
+	<name>crud</name>
+	<description>Crud SrpingBoot Sofka</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -30,6 +31,11 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
