@@ -1,26 +1,26 @@
 package co.com.sofka.BillingModule.services;
 
-import co.com.sofka.BillingModule.models.Bill;
-import co.com.sofka.BillingModule.repositories.BillRepository;
+import co.com.sofka.BillingModule.models.Detail;
+import co.com.sofka.BillingModule.repositories.DetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BillService {
+public class DetailService {
 
     @Autowired
-    private BillRepository repository;
+    private DetailRepository repository;
 
-    public Iterable<Bill> list() {
+    public Iterable<Detail> list() {
         return repository.findAll();
     }
 
-    public Bill get(Long id){
+    public Detail get(Long id){
         return repository.findById(id).orElseThrow();
     }
 
-    public Bill save(Bill bill) {
-        return repository.save(bill);
+    public Detail save(Detail detail) {
+        return repository.save(detail);
     }
 
     public void delete(Long id) {

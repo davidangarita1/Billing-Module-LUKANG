@@ -6,31 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/v1/client")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ClientController {
 
     @Autowired
     private ClientService service;
 
-    @GetMapping(value = "api/clientlist")
+    @GetMapping(value = "/all")
     public Iterable<Client> list() {
         return service.list();
     }
 
-    @GetMapping("api/clientname")
-    public Client getByNames(@RequestBody Client name) {
-        Client client = service.getByName(name);
-        if(client != null)  {
-            return this.service.getByName(name);
-        } return null;
-    }
-
-    @PostMapping(value = "api/client")
+    @PostMapping(value = "/save")
     public Client save(@RequestBody Client client){
         return service.save(client);
     }
 
-    @PutMapping(value = "api/client")
+    @PutMapping(value = "/update")
     public Client update(@RequestBody Client client){
         if(client.getId() != null){
             return service.save(client);
@@ -38,13 +31,21 @@ public class ClientController {
         throw new RuntimeException("No existe el id para actualizar");
     }
 
-    @DeleteMapping(value = "api/{id}/client")
+    @DeleteMapping(value = "/delete/{id}")
     public void delete(@PathVariable("id") Long id){
         service.delete(id);
     }
 
-    @GetMapping(value = "api/{id}/client")
+    @GetMapping(value = "/{id}")
     public Client get(@PathVariable("id") Long id){
         return service.get(id);
+    }
+
+    @GetMapping("/{name}")
+    public Client getByNames(@RequestBody Client name) {
+        Client client = service.getByName(name);
+        if(client != null)  {
+            return this.service.getByName(name);
+        } return null;
     }
 }

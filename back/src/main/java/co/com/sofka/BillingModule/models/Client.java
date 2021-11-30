@@ -3,7 +3,7 @@ package co.com.sofka.BillingModule.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "client")
+@Table(name = "tbl_client")
 public class Client {
 
     @Id

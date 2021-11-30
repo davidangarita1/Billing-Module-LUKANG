@@ -3,7 +3,7 @@ package co.com.sofka.BillingModule.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "product")
+@Table(name = "tbl_product")
 public class Product {
 
     @Id
@@ -18,7 +18,7 @@ public class Product {
     private int stock;
 
     @Column(nullable = false, updatable = true)
-    private double precio;
+    private double price;
 
     @Column(nullable = false, updatable = true)
     private String description;
@@ -47,12 +47,12 @@ public class Product {
         this.stock = stock;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getPrice() {
+        return price;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public String getDescription() {

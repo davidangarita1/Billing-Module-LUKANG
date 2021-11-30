@@ -1,10 +1,9 @@
 import './App.css';
-import API from './components/API';
+//import Product from './components/Product';
+import ProductRouter from './routes/ProductRouter';
 
-function App() {
-  return (
-    <API />
-  );
+const App = () => {
+  return <ProductRouter />
 }
 
 export default App;

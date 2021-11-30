@@ -6,31 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/v1/product")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ProductController {
 
     @Autowired
     private ProductService service;
 
-    @GetMapping(value = "api/productlist")
+    @GetMapping(value = "/all")
     public Iterable<Product> list() {
         return service.list();
     }
 
-    @GetMapping("api/productname")
-    public Product getByNames(@RequestBody Product name) {
-        Product product = service.getByName(name);
-        if(product != null)  {
-            return this.service.getByName(name);
-        } return null;
-    }
-
-    @PostMapping(value = "api/product")
+    @PostMapping(value = "/save")
     public Product save(@RequestBody Product product){
         return service.save(product);
     }
 
-    @PutMapping(value = "api/product")
+    @PutMapping(value = "/update")
     public Product update(@RequestBody Product product){
         if(product.getId() != null){
             return service.save(product);
@@ -38,13 +31,21 @@ public class ProductController {
         throw new RuntimeException("No existe el id para actualizar");
     }
 
-    @DeleteMapping(value = "api/{id}/product")
+    @DeleteMapping(value = "/delete/{id}")
     public void delete(@PathVariable("id") Long id){
         service.delete(id);
     }
 
-    @GetMapping(value = "api/{id}/product")
+    @GetMapping(value = "/search/{id}")
     public Product get(@PathVariable("id") Long id){
         return service.get(id);
+    }
+
+    @GetMapping("/{name}")
+    public Product getByNames(@RequestBody Product name) {
+        Product product = service.getByName(name);
+        if(product != null)  {
+            return this.service.getByName(name);
+        } return null;
     }
 }
