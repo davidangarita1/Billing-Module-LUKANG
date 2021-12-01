@@ -16,10 +16,10 @@ public class Detail {
     @Column(unique = true, nullable = false)
     private Long id_invoice;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private Long quantity;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private Long amount;
 
     public Long getId() {
