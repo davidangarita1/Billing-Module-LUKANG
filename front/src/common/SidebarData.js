@@ -17,6 +17,12 @@ export const SidebarData = [
 		cName: 'nav-text'
 	},
 	{
+		title: 'Categorias',
+		path: '/categories',
+		icon: <FaIcons.FaBuffer />,
+		cName: 'nav-text'
+	},
+	{
 		title: 'Clientes',
 		path: '/clients',
 		icon: <FaIcons.FaUserAlt />,

@@ -1,13 +1,13 @@
 import { useState, Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useHistory, useParams } from 'react-router';
-import productService from '../services/ProductService';
+import productService from '../../services/ProductService';
 
 const AddProduct = () => {
 	const [name, setName] = useState('');
 	const [price, setPrice] = useState(0);
 	const [stock, setStock] = useState(0);
-	const [description, setDescription] = useState('');
+	const [category, setCategory] = useState('');
 	const [isValid, setIsValid] = useState(false);
 	const history = useHistory();
 	const vsExprReg = /[A-Za-z0-9_]/;
@@ -18,7 +18,7 @@ const AddProduct = () => {
 		event.preventDefault();
 		console.log(event.target.value);
 
-		const product = { name, price, stock, description, id };
+		const product = { name, price, stock, category, id };
 		if (id) {
 			// update
 			productService.update(product)
@@ -49,11 +49,11 @@ const AddProduct = () => {
 		if (id) {
 			productService.get(id)
 				.then((product) => {
-					const { name, price, stock, description } = product.data;
+					const { name, price, stock, category } = product.data;
 					setName(name);
 					setPrice(price);
 					setStock(stock);
-					setDescription(description);
+					setCategory(category);
 				}).catch((error) => {
 					console.log('Se produjo el siguiente error:', error);
 				});
@@ -63,9 +63,9 @@ const AddProduct = () => {
 	return (
 		<Fragment>
 			<div className="container">
-				<h3>Agregar Producto</h3>
+				<h3 className="text-center mt-3">Agregar Producto</h3>
 				<hr />
-				<form>
+				<form className="col-sm-12 col-lg-12 offset-sm-4 offset-lg-4">
 					<div className="form-group">
 						<label>Nombre</label>
 						<input
@@ -107,13 +107,13 @@ const AddProduct = () => {
 						/>
 					</div>
 					<div className="form-group">
-						<label>Descripción</label>
-						<textarea
+						<label>Categoría</label>
+						<input
 							className="form-control col-4"
-							id="description"
-							value={description}
-							onChange={(event) => setDescription(event.target.value)}
-							placeholder="Descripción del producto"
+							id="category"
+							value={category}
+							onChange={(event) => setCategory(event.target.value)}
+							placeholder="Elija una categoría"
 						/>
 					</div>
 					<div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import productService from '../services/ProductService';
+import productService from '../../services/ProductService';
 import * as FaIcons from 'react-icons/fa';
 
 const ProductList = () => {
@@ -70,7 +70,7 @@ const ProductList = () => {
 							<th>Nombre</th>
 							<th>Precio</th>
 							<th>Cantidad</th>
-							<th>Descripción</th>
+							<th>Categoría</th>
 							<th colSpan="2">Acciones</th>
 						</tr>
 					</thead>
@@ -81,7 +81,7 @@ const ProductList = () => {
 								<td>{product.name}</td>
 								<td>{product.price}</td>
 								<td>{product.stock}</td>
-								<td>{product.description}</td>
+								<td>{product.category.name}</td>
 								<td className="text-center">
 									<Link to={`/product/edit/${product.id}`} className="text-info m-2">
 										<FaIcons.FaEdit />

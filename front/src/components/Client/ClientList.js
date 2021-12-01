@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import clientService from '../services/ClientService';
+import clientService from '../../services/ClientService';
 import * as FaIcons from 'react-icons/fa';
 
 const ClientList = () => {

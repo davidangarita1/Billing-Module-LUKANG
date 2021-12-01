@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
-import Navbar from './components/Navbar';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import ProductList from './components/ProductList';
-import ClientList from './components/ClientList';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NotFound from './components/NotFound';
-import AddProduct from './components/AddProduct';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Navbar from './common/Navbar';
+import ProductList from './components/Product/ProductList';
+import AddProduct from './components/Product/AddProduct';
+import ClientList from './components/Client/ClientList';
+import NotFound from './common/NotFound';
+
 
 const App = () => {
   return (
