@@ -8,14 +8,15 @@ const AddProduct = () => {
 	const [price, setPrice] = useState(0);
 	const [stock, setStock] = useState(0);
 	const [description, setDescription] = useState('');
+	const [isValid, setIsValid] = useState(false);
 	const history = useHistory();
-	// const vsExprReg = /[A-Za-z0-9_]/;
-	// vsExprReg.test(request.name)
+	const vsExprReg = /[A-Za-z0-9_]/;
 
 	const { id } = useParams();
 
 	const saveProduct = (event) => {
 		event.preventDefault();
+		console.log(event.target.value);
 
 		const product = { name, price, stock, description, id };
 		if (id) {
@@ -29,13 +30,18 @@ const AddProduct = () => {
 				});
 		} else {
 			// create
-			productService.create(product)
-				.then((response) => {
-					console.log('Producto agregado correctamente', response.data);
-					history.push('/');
-				}).catch((error) => {
-					console.log('Se produjo el siguiente error:', error);
-				});
+			if (vsExprReg.test(product.name)) {
+				productService.create(product)
+					.then((response) => {
+						console.log('Producto agregado correctamente', response.data);
+						setIsValid(false);
+						history.push('/');
+					}).catch((error) => {
+						console.log('Se produjo el siguiente error:', error);
+					});
+			} else {
+				setIsValid(true);
+			}
 		}
 	}
 
@@ -69,8 +75,13 @@ const AddProduct = () => {
 							value={name}
 							onChange={(event) => setName(event.target.value)}
 							placeholder="Nombre del producto"
+							required
 						/>
 					</div>
+					{isValid
+						? <div className="alert alert-danger" role="alert">Debes llenar este campo con caracteres alfanuméricos</div>
+						: null
+					}
 					<div className="form-group">
 						<label>Precio</label>
 						<input
@@ -80,6 +91,7 @@ const AddProduct = () => {
 							value={price}
 							onChange={(event) => setPrice(event.target.value)}
 							placeholder="Precio del producto"
+							required
 						/>
 					</div>
 					<div className="form-group">
@@ -91,6 +103,7 @@ const AddProduct = () => {
 							value={stock}
 							onChange={(event) => setStock(event.target.value)}
 							placeholder="Cantidad del producto"
+							required
 						/>
 					</div>
 					<div className="form-group">

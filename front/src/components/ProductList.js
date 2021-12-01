@@ -3,10 +3,19 @@ import { Link } from 'react-router-dom';
 import productService from '../services/ProductService';
 import * as FaIcons from 'react-icons/fa';
 
-
 const ProductList = () => {
 	const [products, setProducts] = useState([]);
 	const [filteredProducts, setFilteredProducts] = useState([]);
+
+
+	const init = () => {
+		productService.getAll().then(res => {
+			setProducts(res.data);
+			setFilteredProducts(res.data);
+		}).catch(err => {
+			console.log('Se produjo el siguiente error: ', err);
+		});
+	}
 
 	const searchProduct = (event) => {
 		const search = event.target.value;
@@ -16,33 +25,44 @@ const ProductList = () => {
 		setFilteredProducts(filter);
 	}
 
+	const handleDelete = (id) => {
+		console.log('eliminando producto con id: ', id);
+		productService.remove(id).then((response) => {
+			console.log("Se elimino correctamente el producto", response.data);
+			init();
+		}).catch((error) => {
+			console.log("Error al eliminar el producto: ", error);
+		})
+	}
+
 	useEffect(() => {
-		productService.getAll().then(res => {
-			setProducts(res.data);
-			setFilteredProducts(res.data);
-		}).catch(err => {
-			console.log('Se produjo el siguiente error: ', err);
-		});
+		init();
 	}, []);
 
 	return (
 		<Fragment>
 			<div className="container">
-				<div className="input-group input-group-lg mt-3">
+				<div className="row text-center title">
+					<div className="col-md-12">
+						<h2>Lista de Productos</h2>
+					</div>
+				</div>
+
+				<div className="input-group input-group-lg mb-3 mt-3">
 					<div className="input-group-prepend">
 						<span className="input-group-text"><FaIcons.FaSearch /></span>
 					</div>
 					<input
 						type="text"
 						className="form-control"
+						placeholder="Buscar producto"
 						aria-label="Large"
 						aria-describedby="inputGroup-sizing-sm"
-						placeholder="Buscar producto"
 						onChange={searchProduct} />
-					<Link to="add-product" className="btn btn-primary mb-2">Agregar producto</Link>
+					<div className="input-group-append">
+						<Link to="add-product" className="btn btn-success">Agregar producto</Link>
+					</div>
 				</div>
-
-				<h3>Lista de Productos</h3>
 				<table className="table table-bordered table-striped">
 					<thead className="thead-dark text-center">
 						<tr>
@@ -68,7 +88,7 @@ const ProductList = () => {
 									</Link>
 								</td>
 								<td className="text-center">
-									<Link to={`/product/del/${product.id}`} className="text-danger m-2">
+									<Link to={`/`} className="text-danger m-2" onClick={(event) => { handleDelete(product.id) }}>
 										<FaIcons.FaTrashAlt />
 									</Link>
 								</td>
