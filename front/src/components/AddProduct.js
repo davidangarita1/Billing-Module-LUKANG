@@ -1,6 +1,6 @@
-import { useState, Fragment } from 'react';
+import { useState, Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import productService from '../services/ProductService';
 
 const AddProduct = () => {
@@ -12,17 +12,47 @@ const AddProduct = () => {
 	// const vsExprReg = /[A-Za-z0-9_]/;
 	// vsExprReg.test(request.name)
 
+	const { id } = useParams();
+
 	const saveProduct = (event) => {
 		event.preventDefault();
 
-		const product = { name, price, stock, description };
-		productService.saveProduct(product).then((response) => {
-			console.log('Producto agregado correctamente', response.data);
-			history.push('/');
-		}).catch((error) => {
-			console.log('Se produjo el siguiente error:', error);
-		});
+		const product = { name, price, stock, description, id };
+		if (id) {
+			// update
+			productService.update(product)
+				.then((response) => {
+					console.log('El Producto fue actualizado correctamente', response.data);
+					history.push('/');
+				}).catch((error) => {
+					console.log('Se produjo el siguiente error:', error);
+				});
+		} else {
+			// create
+			productService.create(product)
+				.then((response) => {
+					console.log('Producto agregado correctamente', response.data);
+					history.push('/');
+				}).catch((error) => {
+					console.log('Se produjo el siguiente error:', error);
+				});
+		}
 	}
+
+	useEffect(() => {
+		if (id) {
+			productService.get(id)
+				.then((product) => {
+					const { name, price, stock, description } = product.data;
+					setName(name);
+					setPrice(price);
+					setStock(stock);
+					setDescription(description);
+				}).catch((error) => {
+					console.log('Se produjo el siguiente error:', error);
+				});
+		}
+	}, [id]);
 
 	return (
 		<Fragment>
@@ -79,7 +109,7 @@ const AddProduct = () => {
 						</button>
 					</div>
 				</form>
-				<hr/>
+				<hr />
 				<Link to="/">Volver a la lista</Link>
 			</div>
 		</Fragment>

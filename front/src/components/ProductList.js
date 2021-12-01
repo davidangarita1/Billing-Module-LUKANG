@@ -63,12 +63,12 @@ const ProductList = () => {
 								<td>{product.stock}</td>
 								<td>{product.description}</td>
 								<td className="text-center">
-									<Link to={`/edit-product/${product.id}`} className="text-success m-2">
+									<Link to={`/product/edit/${product.id}`} className="text-info m-2">
 										<FaIcons.FaEdit />
 									</Link>
 								</td>
 								<td className="text-center">
-									<Link to={`/delete-product/${product.id}`} className="text-danger m-2">
+									<Link to={`/product/del/${product.id}`} className="text-danger m-2">
 										<FaIcons.FaTrashAlt />
 									</Link>
 								</td>
