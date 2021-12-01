@@ -9,8 +9,8 @@ const AddProduct = () => {
 	const [stock, setStock] = useState(0);
 	const [description, setDescription] = useState('');
 	const history = useHistory();
-	//const vsExprReg = /[A-Za-z0-9_]/;
-	//vsExprReg.test(request.name)
+	// const vsExprReg = /[A-Za-z0-9_]/;
+	// vsExprReg.test(request.name)
 
 	const saveProduct = (event) => {
 		event.preventDefault();
@@ -80,7 +80,7 @@ const AddProduct = () => {
 					</div>
 				</form>
 				<hr/>
-				<Link to="/">Volver</Link>
+				<Link to="/">Volver a la lista</Link>
 			</div>
 		</Fragment>
 	);
