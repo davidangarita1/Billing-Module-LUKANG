@@ -1,14 +1,23 @@
 package co.com.sofka.BillingModule.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.*;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "tbl_product")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
+    @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -20,8 +29,9 @@ public class Product {
     @Column(nullable = false, updatable = true)
     private double price;
 
-    @Column(nullable = false, updatable = true)
-    private String description;
+    @OneToOne(targetEntity = Category.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_category")
+    private Category category;
 
     public Long getId() {
         return id;
@@ -55,11 +65,11 @@ public class Product {
         this.price = price;
     }
 
-    public String getDescription() {
-        return description;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
