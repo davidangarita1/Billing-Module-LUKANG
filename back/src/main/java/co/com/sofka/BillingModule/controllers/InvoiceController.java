@@ -18,6 +18,11 @@ public class InvoiceController {
         return service.list();
     }
 
+    @GetMapping(value = "/{id}")
+    public Invoice get(@PathVariable("id") Long id){
+        return service.get(id);
+    }
+
     @PostMapping(value = "/save")
     public Invoice save(@RequestBody Invoice invoice){
         return service.save(invoice);
@@ -34,10 +39,5 @@ public class InvoiceController {
     @DeleteMapping(value = "/delete/{id}")
     public void delete(@PathVariable("id") Long id){
         service.delete(id);
-    }
-
-    @GetMapping(value = "/{id}")
-    public Invoice get(@PathVariable("id") Long id){
-        return service.get(id);
     }
 }

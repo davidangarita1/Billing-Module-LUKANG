@@ -18,6 +18,11 @@ public class ProductController {
         return service.list();
     }
 
+    @GetMapping(value = "/{id}")
+    public Product get(@PathVariable("id") Long id){
+        return service.get(id);
+    }
+
     @PostMapping(value = "/save")
     public Product save(@RequestBody Product product){
         return service.save(product);
@@ -34,18 +39,5 @@ public class ProductController {
     @DeleteMapping(value = "/delete/{id}")
     public void delete(@PathVariable("id") Long id){
         service.delete(id);
-    }
-
-    @GetMapping(value = "/search/{id}")
-    public Product get(@PathVariable("id") Long id){
-        return service.get(id);
-    }
-
-    @GetMapping("/{name}")
-    public Product getByNames(@RequestBody Product name) {
-        Product product = service.getByName(name);
-        if(product != null)  {
-            return this.service.getByName(name);
-        } return null;
     }
 }

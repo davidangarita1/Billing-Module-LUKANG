@@ -19,10 +19,6 @@ public class ClientService {
         return repository.findById(id).orElseThrow();
     }
 
-    public Client getByName(Client name) {
-        return repository.findByName(name.getName());
-    }
-
     public Client save(Client client) {
         return repository.save(client);
     }

@@ -18,6 +18,11 @@ public class DetailController {
         return service.list();
     }
 
+    @GetMapping(value = "/{id}")
+    public Detail get(@PathVariable("id") Long id){
+        return service.get(id);
+    }
+
     @PostMapping(value = "/save")
     public Detail save(@RequestBody Detail detail){
         return service.save(detail);
@@ -34,10 +39,5 @@ public class DetailController {
     @DeleteMapping(value = "/delete/{id}")
     public void delete(@PathVariable("id") Long id){
         service.delete(id);
-    }
-
-    @GetMapping(value = "/{id}")
-    public Detail get(@PathVariable("id") Long id){
-        return service.get(id);
     }
 }

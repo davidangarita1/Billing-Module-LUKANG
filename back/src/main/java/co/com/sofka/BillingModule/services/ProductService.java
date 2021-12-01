@@ -19,10 +19,6 @@ public class ProductService {
         return repository.findById(id).orElseThrow();
     }
 
-    public Product getByName(Product name) {
-        return repository.findByName(name.getName());
-    }
-
     public Product save(Product product) {
         return repository.save(product);
     }

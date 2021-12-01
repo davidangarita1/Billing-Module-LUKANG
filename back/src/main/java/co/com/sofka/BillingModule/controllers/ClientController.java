@@ -18,6 +18,11 @@ public class ClientController {
         return service.list();
     }
 
+    @GetMapping(value = "/{id}")
+    public Client get(@PathVariable("id") Long id){
+        return service.get(id);
+    }
+
     @PostMapping(value = "/save")
     public Client save(@RequestBody Client client){
         return service.save(client);
@@ -34,18 +39,5 @@ public class ClientController {
     @DeleteMapping(value = "/delete/{id}")
     public void delete(@PathVariable("id") Long id){
         service.delete(id);
-    }
-
-    @GetMapping(value = "/{id}")
-    public Client get(@PathVariable("id") Long id){
-        return service.get(id);
-    }
-
-    @GetMapping("/{name}")
-    public Client getByNames(@RequestBody Client name) {
-        Client client = service.getByName(name);
-        if(client != null)  {
-            return this.service.getByName(name);
-        } return null;
     }
 }
