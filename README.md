@@ -52,3 +52,9 @@ public class ProductController {
 }
 ```
 
+## Interfaz de usuario
+### Modulo de productos e inventarios
+En este módulo podrá encontrar el listado de productos que ofrece la empresa, su Id, Nombre, Categoría y Precio unitario, en esta página podrá modificar, eliminar y crear tantos productos como el cliente lo requiera.
+Vasta con presionar el botón de 
+
+### Modulo de facturación
