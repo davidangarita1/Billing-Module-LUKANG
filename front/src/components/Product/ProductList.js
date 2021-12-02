@@ -77,10 +77,10 @@ const ProductList = () => {
 					<tbody>
 						{filteredProducts.map(product => (
 							<tr key={product.id}>
-								<td>{product.id}</td>
+								<td className="text-center">{product.id}</td>
 								<td>{product.name}</td>
-								<td>{product.price}</td>
-								<td>{product.stock}</td>
+								<td className="text-center">${product.price}</td>
+								<td className="text-center">{product.stock}</td>
 								<td>{product.category.name}</td>
 								<td className="text-center">
 									<Link to={`/product/edit/${product.id}`} className="text-info m-2">
@@ -88,7 +88,7 @@ const ProductList = () => {
 									</Link>
 								</td>
 								<td className="text-center">
-									<Link to={`/`} className="text-danger m-2" onClick={(event) => { handleDelete(product.id) }}>
+									<Link to={`/products`} className="text-danger m-2" onClick={(event) => { handleDelete(product.id) }}>
 										<FaIcons.FaTrashAlt />
 									</Link>
 								</td>
