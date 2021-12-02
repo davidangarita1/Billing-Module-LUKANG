@@ -22,12 +22,6 @@ public class Invoice {
     private String products;
 
     @Column(nullable = false)
-    private double subTotal;
-
-    @Column(nullable = false)
-    private double iva;
-
-    @Column(nullable = false)
     private double total;
 
     public Long getId() {
@@ -60,22 +54,6 @@ public class Invoice {
 
     public void setProducts(String products) {
         this.products = products;
-    }
-
-    public double getSubTotal() {
-        return subTotal;
-    }
-
-    public void setSubTotal(double subTotal) {
-        this.subTotal = subTotal;
-    }
-
-    public double getIva() {
-        return iva;
-    }
-
-    public void setIva(double iva) {
-        this.iva = iva;
     }
 
     public double getTotal() {
