@@ -59,7 +59,13 @@ Para realizar modificaciones a la lista de productos  vamos a el menú – produ
 ![image](https://user-images.githubusercontent.com/92315994/144426196-bed8247c-0ed5-4de1-86d8-57d9f725b139.png)
 
 Si presionamos agregar producto, se nos abrirá una ventana donde se deben diligenciar las características del producto y guardar los cambios presionando el botón de agregar.
+
 ![image](https://user-images.githubusercontent.com/92315994/144426628-f7b5f0f6-e5d8-4172-b117-9eff181a10bc.png)
+
+En el modulo de productos se puede modificar o eliminar productos con las acciones.
+
+![image](https://user-images.githubusercontent.com/92315994/144427071-0e3fdc0c-4da7-4220-b7e6-e4376e39c66e.png)
+
 
 
 ### Modulo de facturación
