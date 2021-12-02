@@ -7,7 +7,6 @@ const ProductList = () => {
 	const [products, setProducts] = useState([]);
 	const [filteredProducts, setFilteredProducts] = useState([]);
 
-
 	const init = () => {
 		productService.getAll().then(res => {
 			setProducts(res.data);
@@ -79,9 +78,9 @@ const ProductList = () => {
 							<tr key={product.id}>
 								<td className="text-center">{product.id}</td>
 								<td>{product.name}</td>
-								<td className="text-center">${product.price}</td>
+								<td className="text-center">$ {product.price}</td>
 								<td className="text-center">{product.stock}</td>
-								<td>{product.category.name}</td>
+								<td>{product.category}</td>
 								<td className="text-center">
 									<Link to={`/product/edit/${product.id}`} className="text-info m-2">
 										<FaIcons.FaEdit />

@@ -35,9 +35,9 @@ const AddInvoice = () => {
 		});
 	}
 
-	const addProduct = (product) => {
+	/* const addProduct = (product) => {
 		setAddedProduct([...addedProduct, product]);
-	}
+	} */
 
 	const delProduct = (index) => {
 		setAddedProduct(addedProduct.filter((product, i) => i !== index));

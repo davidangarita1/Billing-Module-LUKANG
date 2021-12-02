@@ -8,8 +8,8 @@ const AddProduct = () => {
 	const [name, setName] = useState('');
 	const [price, setPrice] = useState(0);
 	const [stock, setStock] = useState(0);
-	const [categories, setCategories] = useState({});
-	const [idCategory, setIdCategory] = useState(0);
+	const [category, setCategory] = useState('');
+	const [categories, setCategories] = useState([]);
 	const [isValid, setIsValid] = useState(false);
 	const history = useHistory();
 	const vsExprReg = /[A-Za-z0-9_]/;
@@ -19,7 +19,7 @@ const AddProduct = () => {
 	const saveProduct = (event) => {
 		event.preventDefault();
 
-		const product = { name, price, stock, idCategory, id };
+		const product = { name, price, stock, category, id };
 		if (id) {
 			// update
 			productService.update(product)
@@ -47,6 +47,14 @@ const AddProduct = () => {
 	}
 
 	useEffect(() => {
+		categoryService.getAll().then(res => {
+			setCategories(res.data);
+		}).catch(err => {
+			console.log('Se produjo el siguiente error: ', err);
+		});
+	}, [id]);
+
+	useEffect(() => {
 		if (id) {
 			productService.get(id)
 				.then((product) => {
@@ -61,14 +69,7 @@ const AddProduct = () => {
 		}
 	}, [id]);
 
-	useEffect(() => {
-		categoryService.getAll().then(res => {
-			console.log(res.data);
-			setCategories(res.data);
-		}).catch(err => {
-			console.log('Se produjo el siguiente error: ', err);
-		});
-	}, [id]);
+	
 
 	return (
 		<Fragment>
@@ -89,7 +90,7 @@ const AddProduct = () => {
 						/>
 					</div>
 					{isValid
-						? <div className="alert alert-danger" role="alert">Debes llenar este campo con caracteres alfanuméricos</div>
+						? <div className="alert alert-danger col-4" role="alert">Debes llenar este campo con caracteres alfanuméricos</div>
 						: null
 					}
 					<div className="form-group">
@@ -113,19 +114,21 @@ const AddProduct = () => {
 							value={stock}
 							onChange={(event) => setStock(event.target.value)}
 							placeholder="Cantidad del producto"
-							required
 						/>
 					</div>
 					<div className="form-group">
 						<label>Categoría</label>
-						<input
-							type="number"
+						<select
 							className="form-control col-4"
 							id="category"
-							value={idCategory}
-							onChange={(event) => setIdCategory(event.target.value)}
-							placeholder="Elija una categoría"
-						/>
+							defaultValue={category}
+							onChange={(event) => setCategory(event.target.value)}>
+							 <option value="">Seleccione una categoría</option>
+							 <option value={category}>{category}</option>
+							{/* {categories.map((item) => {
+								return (<option key={item.id} value={item.name}>{item.name}</option>)
+							})} */}
+						</select>
 					</div>
 					<div>
 						<button onClick={(event) => saveProduct(event)} className="btn btn-primary">

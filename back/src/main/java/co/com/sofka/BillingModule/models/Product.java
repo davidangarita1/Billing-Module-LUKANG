@@ -29,9 +29,8 @@ public class Product {
     @Column(nullable = false, updatable = true)
     private double price;
 
-    @OneToOne(targetEntity = Category.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_category")
-    private Category category;
+    @Column(nullable = false, updatable = true)
+    private String category;
 
     public Long getId() {
         return id;
@@ -65,11 +64,11 @@ public class Product {
         this.price = price;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 }
