@@ -19,6 +19,9 @@ public class Invoice {
     private Date date;
 
     @Column(nullable = false)
+    private String products;
+
+    @Column(nullable = false)
     private double subTotal;
 
     @Column(nullable = false)
@@ -49,6 +52,14 @@ public class Invoice {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getProducts() {
+        return products;
+    }
+
+    public void setProducts(String products) {
+        this.products = products;
     }
 
     public double getSubTotal() {
