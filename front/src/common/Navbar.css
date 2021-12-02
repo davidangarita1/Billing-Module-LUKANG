@@ -32,6 +32,7 @@
   
   .nav-text {
     display: flex;
+    /* eslint-disable-next-line */
     justify-content: start;
     align-items: center;
     padding: 8px 0px 8px 16px;
