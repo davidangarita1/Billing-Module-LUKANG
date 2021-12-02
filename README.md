@@ -52,3 +52,20 @@ public class ProductController {
 }
 ```
 
+## Interfaz de usuario
+### Modulo de productos e inventarios
+En este módulo podrá encontrar el listado de productos que ofrece la empresa, su Id, Nombre, Categoría y Precio unitario, en esta página podrá modificar, eliminar y crear tantos productos como el cliente lo requiera.
+Para realizar modificaciones a la lista de productos  vamos a el menú – productos y en esta pagina podremos realizar las acciones relacionadas a los productos.
+![image](https://user-images.githubusercontent.com/92315994/144426196-bed8247c-0ed5-4de1-86d8-57d9f725b139.png)
+
+Si presionamos agregar producto, se nos abrirá una ventana donde se deben diligenciar las características del producto y guardar los cambios presionando el botón de agregar.
+
+![image](https://user-images.githubusercontent.com/92315994/144426628-f7b5f0f6-e5d8-4172-b117-9eff181a10bc.png)
+
+En el modulo de productos se puede modificar o eliminar productos con las acciones.
+
+![image](https://user-images.githubusercontent.com/92315994/144427071-0e3fdc0c-4da7-4220-b7e6-e4376e39c66e.png)
+
+
+
+### Modulo de facturación
