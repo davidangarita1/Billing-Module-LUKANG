@@ -31,7 +31,7 @@ const App = () => {
             <Route path="/category/edit/:id" component={AddCategory} />
             <Route path="/invoices" component={InvoiceList} />
             <Route path="/add-invoice" component={AddInvoice} />
-            <Route path="/invoice/edit/:id" component={AddInvoice} />
+            <Route path="/invoice/show/:id" component={AddInvoice} />
             <Route path="*" component={NotFound} />
           </Switch>
       </Router>

@@ -5,13 +5,12 @@ import invoiceService from '../../services/InvoiceService';
 import productService from '../../services/ProductService';
 import clientService from '../../services/ClientService';
 import * as FaIcons from 'react-icons/fa';
-import PdfGenerate from './PDF';
 import './AddInvoice.css';
+import PdfGenerate from './PDF';
 
 const AddInvoice = () => {
 	const [date, setDate] = useState('');
 	const [idClient, setIdClient] = useState(0);
-	const [subTotal, setSubTotal] = useState(0);
 	const [total, setTotal] = useState(0);
 	const [addedProduct, setAddedProduct] = useState([]);
 	const [products, setProducts] = useState([]);
@@ -66,7 +65,13 @@ const AddInvoice = () => {
 	const saveInvoice = (event) => {
 		event.preventDefault();
 
-		const invoice = { date, idClient, subTotal, total, id };
+		const invoice = { 
+			date: date ? new Date(date) : new Date(), 
+			idClient: parseInt(idClient), 
+			total: parseFloat(total),
+			products: addedProduct.toString(),
+			id: id, 
+		};
 		if (id) {
 			// update
 			invoiceService.update(invoice)
@@ -85,32 +90,25 @@ const AddInvoice = () => {
 				}).catch((error) => {
 					console.log('Se produjo el siguiente error:', error);
 				});
-
 		}
 	}
+
 	const totalProduct = (event, index) => {
 		event.preventDefault();
 		setAddedProduct(addedProduct.map((product, i) => {
-			if (i === index) {
-				product.subTotal = product.price * event.target.value;
-			}
-			return product;
-		}));
+			if (i === index) product.subTotal = product.price * event.target.value;
+			return product}));
 	}
 
-	const savePDF = (event, addedProduct) => {
-		event.preventDefault();
-		PdfGenerate(addedProduct);
-	}
+	const savePDF = (addedProduct) => {PdfGenerate(addedProduct)}
 
 	useEffect(() => {
 		if (id) {
 			invoiceService.get(id)
 				.then((invoice) => {
-					const { date, idClient, subTotal, total } = invoice.data;
+					const { date, idClient, total } = invoice.data;
 					setDate(date);
 					setIdClient(idClient);
-					setSubTotal(subTotal);
 					setTotal(total);
 				}).catch((error) => {
 					console.log('Se produjo el siguiente error:', error);
@@ -127,6 +125,7 @@ const AddInvoice = () => {
 		<Fragment>
 			<div className="container">
 				<h3 className="text-center mt-3">Crear Factura</h3>
+				<h4>Fecha: {date.substring(0, 10)} </h4>
 				<table className="table">
 					<thead className="thead-dark">
 						<tr>
@@ -141,7 +140,7 @@ const AddInvoice = () => {
 									type="text"
 									className="form-control mb-3"
 									placeholder="Escriba la ID del cliente"
-									onChange={(event) => { searchClient(event) }}
+									onChange={(event) => { searchClient(event); setIdClient(event.target.value) }}
 								/>
 								<input type="text" className="form-control"
 									value={filteredClient.length === 1 ? `${filteredClient[0].name} ${filteredClient[0].lastName}` : ''} disabled />
@@ -220,10 +219,8 @@ const AddInvoice = () => {
 					</div>
 				</div>
 				<div>
-					<button onClick={(event) => saveInvoice(event)} className="btn btn-primary">
-						Guardar
-					</button>
-					<button onClick={(event) => savePDF(event, addedProduct)} className="btn btn-secondary ml-2">
+					<button onClick={(event) => saveInvoice(event)} className="btn btn-primary">Guardar</button>
+					<button onClick={savePDF(addedProduct)} className="btn btn-secondary ml-2">
 						Descargar PDF
 					</button>
 				</div>
