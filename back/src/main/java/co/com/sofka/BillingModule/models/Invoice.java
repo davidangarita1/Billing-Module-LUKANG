@@ -12,7 +12,7 @@ public class Invoice {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private Long idClient;
 
     @Column(nullable = false)
