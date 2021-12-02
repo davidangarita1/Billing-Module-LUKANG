@@ -7,9 +7,9 @@ const InvoiceList = () => {
 	const [invoices, setInvoices] = useState([]);
 	const [filteredInvoices, setFilteredInvoices] = useState([]);
 
-
 	const init = () => {
 		invoiceService.getAll().then(res => {
+			res.data.forEach(invoice => invoice.date = invoice.date.substring(0, 10));
 			setInvoices(res.data);
 			setFilteredInvoices(res.data);
 		}).catch(err => {
@@ -64,8 +64,8 @@ const InvoiceList = () => {
 						<Link to="add-invoice" className="btn btn-success">Crear Factura</Link>
 					</div>
 				</div>
-				<table className="table table-bordered table-striped">
-					<thead className="thead-dark text-center">
+				<table className="table table-bordered table-striped text-center">
+					<thead className="thead-dark">
 						<tr>
 							<th>Código</th>
 							<th>Fecha</th>

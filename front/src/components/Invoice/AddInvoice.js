@@ -11,7 +11,6 @@ import './AddInvoice.css';
 const AddInvoice = () => {
 	const [date, setDate] = useState('');
 	const [idClient, setIdClient] = useState(0);
-	const [iva, setIva] = useState(0);
 	const [subTotal, setSubTotal] = useState(0);
 	const [total, setTotal] = useState(0);
 	const [addedProduct, setAddedProduct] = useState([]);
@@ -67,7 +66,7 @@ const AddInvoice = () => {
 	const saveInvoice = (event) => {
 		event.preventDefault();
 
-		const invoice = { date, idClient, iva, subTotal, total, id };
+		const invoice = { date, idClient, subTotal, total, id };
 		if (id) {
 			// update
 			invoiceService.update(invoice)
@@ -101,7 +100,6 @@ const AddInvoice = () => {
 
 	const savePDF = (event, addedProduct) => {
 		event.preventDefault();
-
 		PdfGenerate(addedProduct);
 	}
 
@@ -109,10 +107,9 @@ const AddInvoice = () => {
 		if (id) {
 			invoiceService.get(id)
 				.then((invoice) => {
-					const { date, idClient, iva, subTotal, total } = invoice.data;
+					const { date, idClient, subTotal, total } = invoice.data;
 					setDate(date);
 					setIdClient(idClient);
-					setIva(iva);
 					setSubTotal(subTotal);
 					setTotal(total);
 				}).catch((error) => {
@@ -131,7 +128,7 @@ const AddInvoice = () => {
 			<div className="container">
 				<h3 className="text-center mt-3">Crear Factura</h3>
 				<table className="table">
-					<thead>
+					<thead className="thead-dark">
 						<tr>
 							<th>Id Client</th>
 							<th>Código de Producto</th>
@@ -165,8 +162,7 @@ const AddInvoice = () => {
 											disabled={
 												filteredProduct.length !== 1
 												|| addedProduct.some((product) => product.id === filteredProduct[0].id)
-											}
-										>Agregar</button>
+											}>Agregar</button>
 									</div>
 								</div>
 								<div className="input-group">
@@ -217,7 +213,9 @@ const AddInvoice = () => {
 				<div>
 					<div className="row">
 						<div className="col-md-12 text-right">
-							Total: $ {addedProduct.reduce((total, product) => { return total + product.subTotal }, 0)}
+							<h2>
+								Total: $ {addedProduct.reduce((total, product) => { return total + product.subTotal }, 0)}
+							</h2>
 						</div>
 					</div>
 				</div>
