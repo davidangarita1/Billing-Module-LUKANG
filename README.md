@@ -66,6 +66,21 @@ En el modulo de productos se puede modificar o eliminar productos con las accion
 
 ![image](https://user-images.githubusercontent.com/92315994/144427071-0e3fdc0c-4da7-4220-b7e6-e4376e39c66e.png)
 
+## Modulo de clientes
+Este módulo se encarga de agregar y gestionar a la base de datos de los clientes, en este modulo se ingresan modifican y eliminan los clientes.
+![image](https://user-images.githubusercontent.com/92315994/144473596-c62879c1-ee5e-430a-a582-ba667b628e5b.png)
+
+
+![image](https://user-images.githubusercontent.com/92315994/144468247-756f66d1-832c-4d18-8430-92afe9776298.png) ![image](https://user-images.githubusercontent.com/92315994/144470939-ab049074-9d7b-4b2b-894b-c37b231374dd.png)
+
+
+Aquí podrás crear nuevos clientes, presione el botón Agregar cliente y diligencie el formulario, al finalizar presione agrega.(La misma metodologia que al agregar producto)
 
 
 ### Modulo de facturación
+En el apartado Factura podrá realizar las facturas que requiera, podrá apreciar la información resumida de las facturas realizadas.
+Para elaborar una factura presione el botón Crear Factura y a continuación diligencie el formulario,
+![image](https://user-images.githubusercontent.com/92315994/144474106-7717e76d-a559-4d51-91c6-dd2336281901.png)
+
+
+
