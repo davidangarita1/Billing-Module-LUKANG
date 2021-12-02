@@ -13,7 +13,7 @@ public class Invoice {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private Long id_client;
+    private Long idClient;
 
     @Column(nullable = false)
     private Date date;
@@ -35,12 +35,12 @@ public class Invoice {
         this.id = id;
     }
 
-    public Long getId_client() {
-        return id_client;
+    public Long getIdClient() {
+        return idClient;
     }
 
-    public void setId_client(Long id_client) {
-        this.id_client = id_client;
+    public void setIdClient(Long idClient) {
+        this.idClient = idClient;
     }
 
     public Date getDate() {

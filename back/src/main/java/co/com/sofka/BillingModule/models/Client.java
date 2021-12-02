@@ -7,8 +7,12 @@ import javax.persistence.*;
 public class Client {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
+
+    @Column(unique = true, nullable = false)
+    private Long idClient;
 
     @Column(nullable = false)
     private String name;
@@ -22,6 +26,14 @@ public class Client {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdClient() {
+        return idClient;
+    }
+
+    public void setIdClient(Long idClient) {
+        this.idClient = idClient;
     }
 
     public String getName() {

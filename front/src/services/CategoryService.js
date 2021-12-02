@@ -1,23 +1,23 @@
 import httpClient from '../api/Connection';
 
 const getAll = () => {
-	return httpClient.get('/client/all')
+	return httpClient.get('/category/all')
 }
 
 const create = (data) => {
-	return httpClient.post('/client/save', data)
+	return httpClient.post('/category/save', data)
 }
 
 const get = (id) => {
-	return httpClient.get(`/client/${id}`)
+	return httpClient.get(`/category/${id}`)
 }
 
 const update = (data) => {
-	return httpClient.put('/client/update', data)
+	return httpClient.put('/category/update', data)
 }
 
 const remove = (id) => {
-	return httpClient.delete(`/client/delete/${id}`)
+	return httpClient.delete(`/category/delete/${id}`)
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

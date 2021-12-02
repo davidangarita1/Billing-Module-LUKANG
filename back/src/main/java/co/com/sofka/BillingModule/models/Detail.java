@@ -11,10 +11,10 @@ public class Detail {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private Long id_product;
+    private Long idProduct;
 
     @Column(unique = true, nullable = false)
-    private Long id_invoice;
+    private Long idInvoice;
 
     @Column(nullable = false)
     private Long quantity;
@@ -30,20 +30,20 @@ public class Detail {
         this.id = id;
     }
 
-    public Long getId_product() {
-        return id_product;
+    public Long getIdProduct() {
+        return idProduct;
     }
 
-    public void setId_product(Long id_product) {
-        this.id_product = id_product;
+    public void setIdProduct(Long idProduct) {
+        this.idProduct = idProduct;
     }
 
-    public Long getId_invoice() {
-        return id_invoice;
+    public Long getIdInvoice() {
+        return idInvoice;
     }
 
-    public void setId_invoice(Long id_invoice) {
-        this.id_invoice = id_invoice;
+    public void setIdInvoice(Long idInvoice) {
+        this.idInvoice = idInvoice;
     }
 
     public Long getQuantity() {

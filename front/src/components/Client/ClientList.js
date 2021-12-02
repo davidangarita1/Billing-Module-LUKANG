@@ -1,27 +1,43 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import clientService from '../services/ClientService';
+import { Link } from 'react-router-dom';
+import clientService from '../../services/ClientService';
 import * as FaIcons from 'react-icons/fa';
 
 const ClientList = () => {
 	const [clients, setClients] = useState([]);
 	const [filteredClients, setFilteredClients] = useState([]);
 
-	const searchClient = (event) => {
-		const search = event.target.value;
-		const filter = clients.filter((client) =>
-			client.name.toLowerCase().includes(search.toLowerCase()) ||
-			client.lastName.toLowerCase().includes(search.toLowerCase()) ||
-			client.id.toString().includes(search));
-		setFilteredClients(filter);
-	}
 
-	useEffect(() => {
+	const init = () => {
 		clientService.getAll().then(res => {
 			setClients(res.data);
 			setFilteredClients(res.data);
 		}).catch(err => {
 			console.log('Se produjo el siguiente error: ', err);
 		});
+	}
+
+	const searchClient = (event) => {
+		const search = event.target.value;
+		const filter = clients.filter((client) =>
+			client.name.toLowerCase().includes(search.toLowerCase()) ||
+			client.lastName.toLowerCase().includes(search.toLowerCase()) ||
+			client.idClient.toString().includes(search));
+		setFilteredClients(filter);
+	}
+
+	const handleDelete = (id) => {
+		console.log('eliminando cliente con id: ', id);
+		clientService.remove(id).then((response) => {
+			console.log("Se elimino correctamente el cliente", response.data);
+			init();
+		}).catch((error) => {
+			console.log("Error al eliminar el cliente: ", error);
+		})
+	}
+
+	useEffect(() => {
+		init();
 	}, []);
 
 	return (
@@ -32,34 +48,47 @@ const ClientList = () => {
 						<h2>Lista de Clientes</h2>
 					</div>
 				</div>
+
 				<div className="input-group input-group-lg mb-3 mt-3">
 					<div className="input-group-prepend">
-						<span className="input-group-text">
-							<FaIcons.FaSearch />
-						</span>
+						<span className="input-group-text"><FaIcons.FaSearch /></span>
 					</div>
 					<input
 						type="text"
 						className="form-control"
+						placeholder="Buscar cliente"
 						aria-label="Large"
 						aria-describedby="inputGroup-sizing-sm"
-						placeholder="Buscar cliente"
 						onChange={searchClient} />
+					<div className="input-group-append">
+						<Link to="add-client" className="btn btn-success">Agregar Cliente</Link>
+					</div>
 				</div>
 				<table className="table table-bordered table-striped">
 					<thead className="thead-dark text-center">
 						<tr>
-							<th>Cedula</th>
+							<th>Identificación</th>
 							<th>Nombre</th>
 							<th>Apellido</th>
+							<th colSpan="2">Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
 						{filteredClients.map(client => (
 							<tr key={client.id}>
-								<td>{client.id}</td>
+								<td>{client.idClient}</td>
 								<td>{client.name}</td>
 								<td>{client.lastName}</td>
+								<td className="text-center">
+									<Link to={`/client/edit/${client.id}`} className="text-info m-2">
+										<FaIcons.FaEdit />
+									</Link>
+								</td>
+								<td className="text-center">
+									<Link to={`/clients`} className="text-danger m-2" onClick={(event) => { handleDelete(client.id) }}>
+										<FaIcons.FaTrashAlt />
+									</Link>
+								</td>
 							</tr>
 						))}
 					</tbody>

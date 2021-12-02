@@ -1,41 +1,39 @@
 import { useState, Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useHistory, useParams } from 'react-router';
-import productService from '../services/ProductService';
+import clientService from '../../services/ClientService';
 
-const AddProduct = () => {
+const AddClient = () => {
+	const [idClient, setIdClient] = useState(0);
 	const [name, setName] = useState('');
-	const [price, setPrice] = useState(0);
-	const [stock, setStock] = useState(0);
-	const [description, setDescription] = useState('');
+	const [lastName, setLastName] = useState('');
 	const [isValid, setIsValid] = useState(false);
 	const history = useHistory();
 	const vsExprReg = /[A-Za-z0-9_]/;
 
 	const { id } = useParams();
 
-	const saveProduct = (event) => {
+	const saveClient = (event) => {
 		event.preventDefault();
-		console.log(event.target.value);
 
-		const product = { name, price, stock, description, id };
+		const client = { idClient, name, lastName, id };
 		if (id) {
 			// update
-			productService.update(product)
+			clientService.update(client)
 				.then((response) => {
-					console.log('El Producto fue actualizado correctamente', response.data);
-					history.push('/');
+					console.log('El Cliente fue actualizado correctamente', response.data);
+					history.push('/clients');
 				}).catch((error) => {
 					console.log('Se produjo el siguiente error:', error);
 				});
 		} else {
 			// create
-			if (vsExprReg.test(product.name)) {
-				productService.create(product)
+			if (vsExprReg.test(client.name)) {
+				clientService.create(client)
 					.then((response) => {
-						console.log('Producto agregado correctamente', response.data);
+						console.log('Cliente agregado correctamente', response.data);
 						setIsValid(false);
-						history.push('/');
+						history.push('/clients');
 					}).catch((error) => {
 						console.log('Se produjo el siguiente error:', error);
 					});
@@ -47,13 +45,12 @@ const AddProduct = () => {
 
 	useEffect(() => {
 		if (id) {
-			productService.get(id)
-				.then((product) => {
-					const { name, price, stock, description } = product.data;
+			clientService.get(id)
+				.then((client) => {
+					const { idClient, name, lastName } = client.data;
+					setIdClient(idClient);
 					setName(name);
-					setPrice(price);
-					setStock(stock);
-					setDescription(description);
+					setLastName(lastName);
 				}).catch((error) => {
 					console.log('Se produjo el siguiente error:', error);
 				});
@@ -63,9 +60,9 @@ const AddProduct = () => {
 	return (
 		<Fragment>
 			<div className="container">
-				<h3>Agregar Producto</h3>
+				<h3 className="text-center mt-3">Agregar Cliente</h3>
 				<hr />
-				<form>
+				<form className="col-sm-12 col-lg-12 offset-sm-4 offset-lg-4">
 					<div className="form-group">
 						<label>Nombre</label>
 						<input
@@ -74,7 +71,7 @@ const AddProduct = () => {
 							id="name"
 							value={name}
 							onChange={(event) => setName(event.target.value)}
-							placeholder="Nombre del producto"
+							placeholder="Nombre del cliente"
 							required
 						/>
 					</div>
@@ -83,50 +80,40 @@ const AddProduct = () => {
 						: null
 					}
 					<div className="form-group">
-						<label>Precio</label>
+						<label>Apellido</label>
 						<input
-							type="number"
+							type="text"
 							className="form-control col-4"
-							id="price"
-							value={price}
-							onChange={(event) => setPrice(event.target.value)}
-							placeholder="Precio del producto"
+							id="lastName"
+							value={lastName}
+							onChange={(event) => setLastName(event.target.value)}
+							placeholder="Apellido del cliente"
 							required
 						/>
 					</div>
 					<div className="form-group">
-						<label>Cantidad</label>
+						<label>Identificación</label>
 						<input
 							type="number"
 							className="form-control col-4"
-							id="stock"
-							value={stock}
-							onChange={(event) => setStock(event.target.value)}
-							placeholder="Cantidad del producto"
+							id="idClient"
+							value={idClient}
+							onChange={(event) => setIdClient(event.target.value)}
+							placeholder="Identificación del cliente"
 							required
-						/>
-					</div>
-					<div className="form-group">
-						<label>Descripción</label>
-						<textarea
-							className="form-control col-4"
-							id="description"
-							value={description}
-							onChange={(event) => setDescription(event.target.value)}
-							placeholder="Descripción del producto"
 						/>
 					</div>
 					<div>
-						<button onClick={(event) => saveProduct(event)} className="btn btn-primary">
+						<button onClick={(event) => saveClient(event)} className="btn btn-primary">
 							Agregar
 						</button>
 					</div>
 				</form>
 				<hr />
-				<Link to="/">Volver a la lista</Link>
+				<Link to="/clients">Volver a la lista</Link>
 			</div>
 		</Fragment>
 	);
 }
 
-export default AddProduct;
+export default AddClient;
