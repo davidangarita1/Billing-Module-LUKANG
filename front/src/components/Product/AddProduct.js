@@ -10,9 +10,11 @@ const AddProduct = () => {
 	const [stock, setStock] = useState(0);
 	const [category, setCategory] = useState('');
 	const [categories, setCategories] = useState([]);
-	const [isValid, setIsValid] = useState(false);
+	const [isValidName, setIsValidName] = useState(true);
+	const [isValidPrice, setIsValidPrice] = useState(false);
+	const [isValidStock, setIsValidStock] = useState(false);
+	const [isValidCategory, setIsValidCategory] = useState(true);
 	const history = useHistory();
-	const vsExprReg = /[A-Za-z0-9_]/;
 
 	const { id } = useParams();
 
@@ -31,17 +33,23 @@ const AddProduct = () => {
 				});
 		} else {
 			// create
-			if (vsExprReg.test(product.name)) {
+			product.name.length !== 0 ? setIsValidName(false) : setIsValidName(true);
+			product.price >= 0 ? setIsValidPrice(false) : setIsValidPrice(true);
+			product.stock >= 0 ? setIsValidStock(false) : setIsValidStock(true);
+			product.category.length !== 0 ? setIsValidCategory(false) : setIsValidCategory(true);
+
+			if (!isValidName && !isValidPrice && !isValidStock && !isValidCategory) {
 				productService.create(product)
 					.then((response) => {
 						console.log('Producto agregado correctamente', response.data);
-						setIsValid(false);
+						setIsValidName(false);
+						setIsValidPrice(false);
+						setIsValidStock(false);
+						setIsValidCategory(false);
 						history.push('/products');
 					}).catch((error) => {
 						console.log('Se produjo el siguiente error:', error);
 					});
-			} else {
-				setIsValid(true);
 			}
 		}
 	}
@@ -69,8 +77,6 @@ const AddProduct = () => {
 		}
 	}, [id]);
 
-
-
 	return (
 		<Fragment>
 			<div className="container">
@@ -84,12 +90,12 @@ const AddProduct = () => {
 							className="form-control col-4"
 							id="name"
 							value={name}
-							onChange={(event) => setName(event.target.value)}
+							onChange={(event) => { setName(event.target.value); setIsValidName(false) }}
 							placeholder="Nombre del producto"
 							required
 						/>
 					</div>
-					{isValid
+					{isValidName
 						? <div className="alert alert-danger col-4" role="alert">Debes llenar este campo con caracteres alfanuméricos</div>
 						: null
 					}
@@ -105,6 +111,10 @@ const AddProduct = () => {
 							required
 						/>
 					</div>
+					{isValidPrice
+						? <div className="alert alert-danger col-4" role="alert">El número no puede ser negativo</div>
+						: null
+					}
 					<div className="form-group">
 						<label>Cantidad</label>
 						<input
@@ -116,27 +126,35 @@ const AddProduct = () => {
 							placeholder="Cantidad del producto"
 						/>
 					</div>
+					{isValidStock
+						? <div className="alert alert-danger col-4" role="alert">El número no puede ser negativo</div>
+						: null
+					}
 					<div className="form-group">
 						<label>Categoría</label>
 						<select
 							className="form-control col-4"
 							id="category"
 							defaultValue={category}
-							onChange={(event) => setCategory(event.target.value)}>
+							onChange={(event) => { setCategory(event.target.value); setIsValidCategory(false) }}>
 							{category
 								? <option value={category}>{category}</option>
 								: <option value="">Seleccione una categoría</option>}
 							{categories.map((item) => {
 								return (
-									category !== item.name 
-									? <option key={item.id} value={item.name}>{item.name}</option>
-									: null
+									category !== item.name
+										? <option key={item.id} value={item.name}>{item.name}</option>
+										: null
 								)
 							})}
 						</select>
 					</div>
+					{isValidCategory
+						? <div className="alert alert-danger col-4" role="alert">Debes elegir una opción</div>
+						: null
+					}
 					<div>
-						<button onClick={(event) => saveProduct(event)} className="btn btn-primary">
+						<button type="submit" onClick={(event) => saveProduct(event)} className="btn btn-primary">
 							Agregar
 						</button>
 					</div>

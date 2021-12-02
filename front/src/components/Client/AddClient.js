@@ -76,7 +76,7 @@ const AddClient = () => {
 						/>
 					</div>
 					{isValid
-						? <div className="alert alert-danger" role="alert">Debes llenar este campo con caracteres alfanuméricos</div>
+						? <div className="alert alert-danger col-4" role="alert">Debes llenar este campo con caracteres alfanuméricos</div>
 						: null
 					}
 					<div className="form-group">
