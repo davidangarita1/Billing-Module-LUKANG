@@ -33,11 +33,5 @@ export const SidebarData = [
 		path: '/invoices',
 		icon: <IoIcons.IoIosPaper />,
 		cName: 'nav-text'
-	},
-	{
-		title: 'Soporte',
-		path: '/support',
-		icon: <IoIcons.IoMdHelpCircle />,
-		cName: 'nav-text'
 	}
 ];
