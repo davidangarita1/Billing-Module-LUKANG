@@ -20,6 +20,7 @@ const ProductList = () => {
 		const search = event.target.value;
 		const filter = products.filter((product) =>
 			product.name.toLowerCase().includes(search.toLowerCase()) ||
+			product.category.toLowerCase().includes(search.toLowerCase()) ||
 			product.id.toString().includes(search));
 		setFilteredProducts(filter);
 	}

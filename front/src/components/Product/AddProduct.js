@@ -58,18 +58,18 @@ const AddProduct = () => {
 		if (id) {
 			productService.get(id)
 				.then((product) => {
-					const { name, price, stock, categories } = product.data;
+					const { name, price, stock, category } = product.data;
 					setName(name);
 					setPrice(price);
 					setStock(stock);
-					setCategories(categories);
+					setCategory(category);
 				}).catch((error) => {
 					console.log('Se produjo el siguiente error:', error);
 				});
 		}
 	}, [id]);
 
-	
+
 
 	return (
 		<Fragment>
@@ -123,11 +123,16 @@ const AddProduct = () => {
 							id="category"
 							defaultValue={category}
 							onChange={(event) => setCategory(event.target.value)}>
-							 <option value="">Seleccione una categoría</option>
-							 <option value={category}>{category}</option>
-							{/* {categories.map((item) => {
-								return (<option key={item.id} value={item.name}>{item.name}</option>)
-							})} */}
+							{category
+								? <option value={category}>{category}</option>
+								: <option value="">Seleccione una categoría</option>}
+							{categories.map((item) => {
+								return (
+									category !== item.name 
+									? <option key={item.id} value={item.name}>{item.name}</option>
+									: null
+								)
+							})}
 						</select>
 					</div>
 					<div>
