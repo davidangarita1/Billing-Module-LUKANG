@@ -20,13 +20,13 @@ const AddInvoice = () => {
 	const history = useHistory();
 	const { id } = useParams();
 
+	// Get all products
 	const initProducts = () => {
 		productService.getAll().then(res => {
 			res.data.map(product => product.subTotal = product.price);
 			res.data.map(product => {
 				product.available = [];
-				for (let i = 1; i <= product.stock; i++) product.available.push(i);
-				return (product.available)
+				for (let i = 1; i <= product.stock; i++) product.available.push(i); return (product.available)
 			});
 			setProducts(res.data);
 			setFilteredProduct(res.data);
@@ -34,29 +34,27 @@ const AddInvoice = () => {
 			console.log('Se produjo el siguiente error: ', err);
 		});
 	}
-
+	// Get all clients
 	const initClients = () => {
 		clientService.getAll().then(res => {
 			setClients(res.data);
 			setFilteredClient(res.data);
-		}).catch(err => {
-			console.log('Se produjo el siguiente error: ', err);
-		});
+		}).catch(err => { console.log('Se produjo el siguiente error: ', err); })
 	}
-
+	// Find product by id
 	const searchProduct = (event) => {
 		const filter = products.filter((product) => product.id.toString() === event.target.value);
 		setFilteredProduct(filter);
 	}
-
+	// Find client by id
 	const searchClient = (event) => {
 		const filter = clients.filter((client) => client.idClient.toString() === event.target.value);
 		setFilteredClient(filter);
 	}
 
-	const addProduct = (product) => { setAddedProduct([...addedProduct, product]) }
+	const addProduct = (product) => { setAddedProduct([...addedProduct, product]) } // Add product to invoice
 
-	const deleteProduct = (index) => { setAddedProduct(addedProduct.filter((product, i) => i !== index)); }
+	const deleteProduct = (index) => { setAddedProduct(addedProduct.filter((product, i) => i !== index)) } // Delete product from invoice
 
 	const saveInvoice = (event) => {
 		event.preventDefault();
@@ -65,25 +63,17 @@ const AddInvoice = () => {
 		addedProduct.map((product) => { if (product.quantity === undefined) product.quantity = 1; return product });
 
 		const invoice = {
-			date: date ? new Date(date) : new Date(),
-			idClient: parseInt(idClient),
-			clientName: `${filteredClient[0].name} ${filteredClient[0].lastName}`,
-			total: getTotal,
-			products: JSON.stringify(addedProduct),
+			date: date ? new Date(date) : new Date(), // Create date
+			idClient: parseInt(idClient), // Get client id
+			clientName: `${filteredClient[0].name} ${filteredClient[0].lastName}`, // Get client name
+			total: getTotal, // Get total
+			products: JSON.stringify(addedProduct), // Convert products to string
 		};
-		// create
-		invoiceService.create(invoice)
-			.then((response) => {
-				console.log('Factura agregada correctamente', response.data);
-				history.push('/invoices');
-			}).catch((error) => {
-				console.log('Se produjo el siguiente error:', error);
-			});
+		// create invoice
+		invoiceService.create(invoice).then(() => { history.push('/invoices') }).catch((error) => { console.log('Se produjo el siguiente error:', error) })
 	}
 
-	const currencyFormat = (num) => {
-		return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-	}
+	const currencyFormat = (num) => { return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') }
 
 	const totalProduct = (event, index) => {
 		event.preventDefault();
@@ -94,7 +84,6 @@ const AddInvoice = () => {
 			};
 			return product
 		}));
-
 	}
 
 	const savePDF = (event) => {
@@ -102,6 +91,7 @@ const AddInvoice = () => {
 		PdfGenerate(id, date.substring(0, 10), idClient, clientName, addedProduct);
 	}
 
+	// Get invoice by id when show
 	useEffect(() => {
 		if (id) {
 			invoiceService.get(id)
@@ -117,9 +107,8 @@ const AddInvoice = () => {
 		}
 	}, [id]);
 
-	useEffect(() => {
-		if (!id) { initProducts(); initClients(); }
-	}, [id]);
+	// Get all products and clients when create
+	useEffect(() => {if (!id) { initProducts(); initClients(); }}, [id]);
 
 	return (
 		<Fragment>
@@ -128,10 +117,7 @@ const AddInvoice = () => {
 				<h4>Fecha: {date.substring(0, 10)} </h4>
 				<table className="table">
 					<thead className="thead-dark">
-						<tr>
-							<th>Id Client</th>
-							<th>Código de Producto</th>
-						</tr>
+						<tr><th>Id Client</th><th>Código de Producto</th></tr>
 					</thead>
 					<tbody>
 						<tr>
@@ -182,12 +168,7 @@ const AddInvoice = () => {
 				<table className="table table-bordered table-striped fixed_header">
 					<thead className="thead-dark">
 						<tr>
-							<th>Código</th>
-							<th>Descripción</th>
-							<th>Precio Unit.</th>
-							<th>Cantidad</th>
-							<th>Sub Total</th>
-							<th>Acciones</th>
+							<th>Código</th><th>Descripción</th><th>Precio Unit.</th><th>Cantidad</th><th>Sub Total</th><th>Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -196,7 +177,6 @@ const AddInvoice = () => {
 								<td className="text-center">{product.id}</td>
 								<td>{product.name}</td>
 								<td className="text-center">{currencyFormat(product.price)}</td>
-
 								<td className="text-center">
 									{id ? product.quantity
 										: <select className="form-control" onChange={(event) => { totalProduct(event, index); }}>
@@ -208,12 +188,8 @@ const AddInvoice = () => {
 								</td>
 								<td className="text-center">{currencyFormat(product.subTotal)}</td>
 								<td className="text-center">
-									{!id
-										? <Link to={`/add-invoice`} className="text-danger m-2" onClick={(event) => { deleteProduct(index) }}>
-											<FaIcons.FaTrashAlt />
-										</Link>
-										: 'No disponible'
-									}
+									{!id ? <Link to={`/add-invoice`} className="text-danger m-2" onClick={(event) => { deleteProduct(index) }}>
+										<FaIcons.FaTrashAlt /></Link> : 'No disponible'}
 								</td>
 							</tr>
 						))}
@@ -222,9 +198,7 @@ const AddInvoice = () => {
 				<div>
 					<div className="row">
 						<div className="col-md-12 text-right">
-							<h2>
-								Total: {currencyFormat(addedProduct.reduce((total, product) => { return total + product.subTotal }, 0))}
-							</h2>
+							<h2>Total: {currencyFormat(addedProduct.reduce((total, product) => { return total + product.subTotal }, 0))}</h2>
 						</div>
 					</div>
 				</div>

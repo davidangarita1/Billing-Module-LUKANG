@@ -7,7 +7,7 @@ const ClientList = () => {
 	const [clients, setClients] = useState([]);
 	const [filteredClients, setFilteredClients] = useState([]);
 
-
+	// Get all clients from the database
 	const init = () => {
 		clientService.getAll().then(res => {
 			setClients(res.data);
@@ -16,7 +16,7 @@ const ClientList = () => {
 			console.log('Se produjo el siguiente error: ', err);
 		});
 	}
-
+	// Filter clients by name or last name or identification
 	const searchClient = (event) => {
 		const search = event.target.value;
 		const filter = clients.filter((client) =>
@@ -25,17 +25,16 @@ const ClientList = () => {
 			client.idClient.toString().includes(search));
 		setFilteredClients(filter);
 	}
-
+	// Delete client
 	const handleDelete = (id) => {
-		console.log('eliminando cliente con id: ', id);
 		clientService.remove(id).then((response) => {
-			console.log("Se elimino correctamente el cliente", response.data);
 			init();
 		}).catch((error) => {
 			console.log("Error al eliminar el cliente: ", error);
 		})
 	}
 
+	// Load clients from the database
 	useEffect(() => {
 		init();
 	}, []);

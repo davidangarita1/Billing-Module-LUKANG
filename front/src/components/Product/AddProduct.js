@@ -23,7 +23,7 @@ const AddProduct = () => {
 
 		const product = { name, price, stock, category, id };
 		if (id) {
-			// update
+			// update product
 			productService.update(product)
 				.then((response) => {
 					console.log('El Producto fue actualizado correctamente', response.data);
@@ -32,12 +32,13 @@ const AddProduct = () => {
 					console.log('Se produjo el siguiente error:', error);
 				});
 		} else {
-			// create
+			// create product
 			product.name.length !== 0 ? setIsValidName(false) : setIsValidName(true);
 			product.price >= 0 ? setIsValidPrice(false) : setIsValidPrice(true);
 			product.stock >= 0 ? setIsValidStock(false) : setIsValidStock(true);
 			product.category.length !== 0 ? setIsValidCategory(false) : setIsValidCategory(true);
 
+			// Contional to save product
 			if (!isValidName && !isValidPrice && !isValidStock && !isValidCategory) {
 				productService.create(product)
 					.then((response) => {
@@ -54,6 +55,7 @@ const AddProduct = () => {
 		}
 	}
 
+	// Get all categories to fill the select
 	useEffect(() => {
 		categoryService.getAll().then(res => {
 			setCategories(res.data);
@@ -62,6 +64,7 @@ const AddProduct = () => {
 		});
 	}, [id]);
 
+	// Get product by id when editing
 	useEffect(() => {
 		if (id) {
 			productService.get(id)

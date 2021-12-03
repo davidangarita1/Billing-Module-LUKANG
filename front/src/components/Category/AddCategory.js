@@ -8,7 +8,6 @@ const AddCategory = () => {
 	const [isValid, setIsValid] = useState(false);
 	const history = useHistory();
 	const vsExprReg = /[A-Za-z0-9_]/;
-
 	const { id } = useParams();
 
 	const saveCategory = (event) => {
@@ -26,7 +25,7 @@ const AddCategory = () => {
 				});
 		} else {
 			// create
-			if (vsExprReg.test(category.name)) {
+			if (vsExprReg.test(category.name)) { // validator for name
 				categoryService.create(category)
 					.then((response) => {
 						console.log('Categoria agregada correctamente', response.data);
@@ -41,6 +40,7 @@ const AddCategory = () => {
 		}
 	}
 
+	// get categories
 	useEffect(() => {
 		if (id) {
 			categoryService.get(id)

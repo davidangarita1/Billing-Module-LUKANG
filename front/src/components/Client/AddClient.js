@@ -10,7 +10,6 @@ const AddClient = () => {
 	const [isValid, setIsValid] = useState(false);
 	const history = useHistory();
 	const vsExprReg = /[A-Za-z0-9_]/;
-
 	const { id } = useParams();
 
 	const saveClient = (event) => {
@@ -18,7 +17,7 @@ const AddClient = () => {
 
 		const client = { idClient, name, lastName, id };
 		if (id) {
-			// update
+			// update client
 			clientService.update(client)
 				.then((response) => {
 					console.log('El Cliente fue actualizado correctamente', response.data);
@@ -27,8 +26,8 @@ const AddClient = () => {
 					console.log('Se produjo el siguiente error:', error);
 				});
 		} else {
-			// create
-			if (vsExprReg.test(client.name)) {
+			// create client
+			if (vsExprReg.test(client.name) && vsExprReg.test(client.lastName) && client.idClient > 0) {
 				clientService.create(client)
 					.then((response) => {
 						console.log('Cliente agregado correctamente', response.data);
@@ -43,6 +42,7 @@ const AddClient = () => {
 		}
 	}
 
+	// Get all clients when id is defined
 	useEffect(() => {
 		if (id) {
 			clientService.get(id)
@@ -76,7 +76,7 @@ const AddClient = () => {
 						/>
 					</div>
 					{isValid
-						? <div className="alert alert-danger col-4" role="alert">Debes llenar este campo con caracteres alfanuméricos</div>
+						? <div className="alert alert-danger col-4" role="alert">Debes llenar todos los campos</div>
 						: null
 					}
 					<div className="form-group">

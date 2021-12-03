@@ -7,7 +7,7 @@ const CategoryList = () => {
 	const [categories, setCategories] = useState([]);
 	const [filteredCategories, setFilteredCategories] = useState([]);
 
-
+	// Get all categories
 	const init = () => {
 		categoryService.getAll().then(res => {
 			setCategories(res.data);
@@ -17,6 +17,7 @@ const CategoryList = () => {
 		});
 	}
 
+	// Filter categories
 	const searchCategory = (event) => {
 		const search = event.target.value;
 		const filter = categories.filter((category) =>
@@ -25,8 +26,8 @@ const CategoryList = () => {
 		setFilteredCategories(filter);
 	}
 
+	// Delete category
 	const handleDelete = (id) => {
-		console.log('eliminando categoria con id: ', id);
 		categoryService.remove(id).then((response) => {
 			console.log("Se elimino correctamente la categoria", response.data);
 			init();
@@ -35,6 +36,7 @@ const CategoryList = () => {
 		})
 	}
 
+	// Load categories
 	useEffect(() => {
 		init();
 	}, []);
@@ -65,11 +67,7 @@ const CategoryList = () => {
 				</div>
 				<table className="table table-bordered table-striped">
 					<thead className="thead-dark text-center">
-						<tr>
-							<th>Código</th>
-							<th>Categoria</th>
-							<th colSpan="2">Acciones</th>
-						</tr>
+						<tr><th>Código</th><th>Categoria</th><th colSpan="2">Acciones</th></tr>
 					</thead>
 					<tbody>
 						{filteredCategories.map(category => (
