@@ -59,7 +59,7 @@ const ProductList = () => {
 					<input
 						type="text"
 						className="form-control"
-						placeholder="Buscar producto"
+						placeholder="Buscar producto por nombre, categoria o código"
 						aria-label="Large"
 						aria-describedby="inputGroup-sizing-sm"
 						onChange={searchProduct} />

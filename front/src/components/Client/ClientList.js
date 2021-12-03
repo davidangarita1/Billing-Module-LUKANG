@@ -47,7 +47,7 @@ const ClientList = () => {
 						<h2>Lista de Clientes</h2>
 					</div>
 				</div>
-
+				
 				<div className="col-12 input-group input-group-lg mb-3 mt-3">
 					<div className="input-group-prepend">
 						<span className="input-group-text"><FaIcons.FaSearch /></span>
@@ -55,7 +55,7 @@ const ClientList = () => {
 					<input
 						type="text"
 						className="form-control"
-						placeholder="Buscar cliente"
+						placeholder="Buscar cliente por identificación, nombre o apellido"
 						aria-label="Large"
 						aria-describedby="inputGroup-sizing-sm"
 						onChange={searchClient} />

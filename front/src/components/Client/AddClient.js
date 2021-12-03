@@ -4,12 +4,13 @@ import { useHistory, useParams } from 'react-router';
 import clientService from '../../services/ClientService';
 
 const AddClient = () => {
-	const [idClient, setIdClient] = useState(0);
+	const [idClient, setIdClient] = useState('');
 	const [name, setName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [isValid, setIsValid] = useState(false);
 	const history = useHistory();
-	const vsExprReg = /[A-Za-z0-9_]/;
+	const charRegex = new RegExp("^[a-zA-Z ]+$");
+	const numRegex = new RegExp("^[0-9]+$");
 	const { id } = useParams();
 
 	const saveClient = (event) => {
@@ -27,7 +28,7 @@ const AddClient = () => {
 				});
 		} else {
 			// create client
-			if (vsExprReg.test(client.name) && vsExprReg.test(client.lastName) && client.idClient > 0) {
+			if (client.name.length > 0 && client.lastName.length > 0 && client.idClient > 0) {
 				clientService.create(client)
 					.then((response) => {
 						console.log('Cliente agregado correctamente', response.data);
@@ -39,6 +40,23 @@ const AddClient = () => {
 			} else {
 				setIsValid(true);
 			}
+		}
+	}
+
+	const textValid = (event, key) => {
+		const { value } = event.target;
+		switch (key) {
+			case 'name':
+				if (charRegex.test(value) || value === '') setName(value);
+				break;
+			case 'lastName':
+				if (charRegex.test(value) || value === '') setLastName(value);
+				break;
+			case 'idClient':
+				if (numRegex.test(value) || value === '') setIdClient(value);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -62,7 +80,12 @@ const AddClient = () => {
 			<div className="container">
 				<h3 className="text-center mt-3">Agregar Cliente</h3>
 				<hr />
+
 				<form className="col-sm-12 col-lg-12 offset-sm-4 offset-lg-4">
+					{isValid
+						? <div className="alert alert-danger col-4" role="alert">Debes llenar todos los campos</div>
+						: null
+					}
 					<div className="form-group">
 						<label>Nombre</label>
 						<input
@@ -70,15 +93,11 @@ const AddClient = () => {
 							className="form-control col-4"
 							id="name"
 							value={name}
-							onChange={(event) => setName(event.target.value)}
+							onChange={(event) => { textValid(event, 'name') }}
 							placeholder="Nombre del cliente"
 							required
 						/>
 					</div>
-					{isValid
-						? <div className="alert alert-danger col-4" role="alert">Debes llenar todos los campos</div>
-						: null
-					}
 					<div className="form-group">
 						<label>Apellido</label>
 						<input
@@ -86,7 +105,7 @@ const AddClient = () => {
 							className="form-control col-4"
 							id="lastName"
 							value={lastName}
-							onChange={(event) => setLastName(event.target.value)}
+							onChange={(event) => textValid(event, 'lastName')}
 							placeholder="Apellido del cliente"
 							required
 						/>
@@ -94,11 +113,11 @@ const AddClient = () => {
 					<div className="form-group">
 						<label>Identificación</label>
 						<input
-							type="number"
+							type="text"
 							className="form-control col-4"
 							id="idClient"
 							value={idClient}
-							onChange={(event) => setIdClient(event.target.value)}
+							onChange={(event) => textValid(event, 'idClient')}
 							placeholder="Identificación del cliente"
 							required
 						/>
