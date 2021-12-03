@@ -53,7 +53,7 @@ public class ProductController {
 ```
 
 ## Interfaz de usuario
-### Modulo de productos e inventarios
+## Modulo de productos e inventarios
 En este módulo podrá encontrar el listado de productos que ofrece la empresa, su Id, Nombre, Categoría y Precio unitario, en esta página podrá modificar, eliminar y crear tantos productos como el cliente lo requiera.
 Para realizar modificaciones a la lista de productos  vamos a el menú – productos y en esta pagina podremos realizar las acciones relacionadas a los productos.
 ![image](https://user-images.githubusercontent.com/92315994/144426196-bed8247c-0ed5-4de1-86d8-57d9f725b139.png)
@@ -77,10 +77,14 @@ Este módulo se encarga de agregar y gestionar a la base de datos de los cliente
 Aquí podrás crear nuevos clientes, presione el botón Agregar cliente y diligencie el formulario, al finalizar presione agrega.(La misma metodologia que al agregar producto)
 
 
-### Modulo de facturación
+
+## Modulo de facturación
 En el apartado Factura podrá realizar las facturas que requiera, podrá apreciar la información resumida de las facturas realizadas.
 Para elaborar una factura presione el botón Crear Factura y a continuación diligencie el formulario,
 ![image](https://user-images.githubusercontent.com/92315994/144474106-7717e76d-a559-4d51-91c6-dd2336281901.png)
+
+Después de ingresar la información requerida podrá guardar la factura para su posterior visualización e impresión.
+![image](https://user-images.githubusercontent.com/92315994/144541231-e4d4532a-57b7-430c-991d-17ea5c1c05d3.png)
 
 
 
