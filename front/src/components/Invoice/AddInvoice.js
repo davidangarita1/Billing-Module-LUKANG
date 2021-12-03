@@ -224,7 +224,7 @@ const AddInvoice = () => {
 						<button
 							onClick={(event) => saveInvoice(event)}
 							className="btn btn-primary"
-							disabled={filteredProduct.length !== 1 || addedProduct.length === 0 || idClient.length === 0}
+							disabled={addedProduct.length === 0 || idClient.length === 0}
 							>Guardar</button>}
 					{id && <button onClick={(event) => savePDF(event)} className="btn btn-secondary ml-2">Descargar PDF</button>}
 				</div>

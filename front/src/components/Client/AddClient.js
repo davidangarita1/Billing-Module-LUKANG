@@ -8,6 +8,7 @@ const AddClient = () => {
 	const [name, setName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [isValid, setIsValid] = useState(false);
+	const [isExist, setIsExist] = useState(false);
 	const history = useHistory();
 	const charRegex = new RegExp("^[a-zA-Z ]+$");
 	const numRegex = new RegExp("^[0-9]+$");
@@ -33,8 +34,10 @@ const AddClient = () => {
 					.then((response) => {
 						console.log('Cliente agregado correctamente', response.data);
 						setIsValid(false);
+						setIsExist(false);
 						history.push('/clients');
 					}).catch((error) => {
+						setIsExist(true);
 						console.log('Se produjo el siguiente error:', error);
 					});
 			} else {
@@ -85,6 +88,10 @@ const AddClient = () => {
 				<form className="col-sm-12 col-lg-12 offset-sm-4 offset-lg-4">
 					{isValid
 						? <div className="alert alert-danger col-4" role="alert">Debes llenar todos los campos</div>
+						: null
+					}
+					{isExist
+						? <div className="alert alert-danger col-4" role="alert">Este numero identificatión ya existe</div>
 						: null
 					}
 					<div className="form-group">

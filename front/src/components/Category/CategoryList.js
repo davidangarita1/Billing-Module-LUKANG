@@ -57,7 +57,7 @@ const CategoryList = () => {
 					<input
 						type="text"
 						className="form-control"
-						placeholder="Buscar categoria"
+						placeholder="Buscar categoria por nombre o id"
 						aria-label="Large"
 						aria-describedby="inputGroup-sizing-sm"
 						onChange={searchCategory} />

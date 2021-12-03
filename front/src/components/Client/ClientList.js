@@ -74,7 +74,7 @@ const ClientList = () => {
 					</thead>
 					<tbody>
 						{filteredClients.map(client => (
-							<tr key={client.id}>
+							<tr className="text-center" key={client.id}>
 								<td>{client.idClient}</td>
 								<td>{client.name}</td>
 								<td>{client.lastName}</td>

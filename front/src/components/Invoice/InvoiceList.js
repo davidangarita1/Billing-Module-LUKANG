@@ -50,7 +50,7 @@ const InvoiceList = () => {
 					<input
 						type="text"
 						className="form-control"
-						placeholder="Buscar factura"
+						placeholder="Buscar factura por Código, ID Cliente o fecha"
 						aria-label="Large"
 						aria-describedby="inputGroup-sizing-sm"
 						onChange={searchInvoice} />
