@@ -108,7 +108,7 @@ const AddInvoice = () => {
 	}, [id]);
 
 	// Get all products and clients when create
-	useEffect(() => {if (!id) { initProducts(); initClients(); }}, [id]);
+	useEffect(() => { if (!id) { initProducts(); initClients(); } }, [id]);
 
 	return (
 		<Fragment>
@@ -123,7 +123,7 @@ const AddInvoice = () => {
 						<tr>
 							<td>
 								<input
-									type="text"
+									type="number"
 									className="form-control mb-3"
 									placeholder="Escriba la ID del cliente"
 									value={idClient}
@@ -203,7 +203,12 @@ const AddInvoice = () => {
 					</div>
 				</div>
 				<div>
-					{!id && <button onClick={(event) => saveInvoice(event)} className="btn btn-primary">Guardar</button>}
+					{!id &&
+						<button
+							onClick={(event) => saveInvoice(event)}
+							className="btn btn-primary"
+							disabled={filteredProduct.length !== 1 && addedProduct.length === 0}
+							>Guardar</button>}
 					{id && <button onClick={(event) => savePDF(event)} className="btn btn-secondary ml-2">Descargar PDF</button>}
 				</div>
 				<hr />

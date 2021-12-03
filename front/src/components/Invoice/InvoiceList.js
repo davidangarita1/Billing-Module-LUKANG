@@ -43,7 +43,7 @@ const InvoiceList = () => {
 					</div>
 				</div>
 
-				<div className="input-group input-group-lg mb-3 mt-3">
+				<div className="col-12 input-group input-group-lg mb-3 mt-3">
 					<div className="input-group-prepend">
 						<span className="input-group-text"><FaIcons.FaSearch /></span>
 					</div>
