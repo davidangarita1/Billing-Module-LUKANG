@@ -43,6 +43,7 @@ const AddClient = () => {
 		}
 	}
 
+	// Validate if the name, lastname is only letters and idClient is only numbers
 	const textValid = (event, key) => {
 		const { value } = event.target;
 		switch (key) {

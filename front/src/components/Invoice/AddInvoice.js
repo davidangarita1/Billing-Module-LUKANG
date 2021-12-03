@@ -10,7 +10,8 @@ import PdfGenerate from './PDF';
 
 const AddInvoice = () => {
 	const [date, setDate] = useState('');
-	const [idClient, setIdClient] = useState(0);
+	const [idClient, setIdClient] = useState('');
+	const [idProduct, setIdProduct] = useState('');
 	const [clientName, setClientName] = useState('');
 	const [addedProduct, setAddedProduct] = useState([]);
 	const [products, setProducts] = useState([]);
@@ -18,6 +19,7 @@ const AddInvoice = () => {
 	const [clients, setClients] = useState([]);
 	const [filteredClient, setFilteredClient] = useState([]);
 	const history = useHistory();
+	const numRegex = new RegExp("^[0-9]+$");
 	const { id } = useParams();
 
 	// Get all products
@@ -91,6 +93,20 @@ const AddInvoice = () => {
 		PdfGenerate(id, date.substring(0, 10), idClient, clientName, addedProduct);
 	}
 
+	const textValid = (event, key) => {
+		const { value } = event.target;
+		switch (key) {
+			case 'idClient':
+				if (numRegex.test(value) || value === '') setIdClient(value);
+				break;
+			case 'idProduct':
+				if (numRegex.test(value) || value === '') setIdProduct(value);
+				break;
+			default:
+				break;
+		}
+	}
+
 	// Get invoice by id when show
 	useEffect(() => {
 		if (id) {
@@ -123,11 +139,11 @@ const AddInvoice = () => {
 						<tr>
 							<td>
 								<input
-									type="number"
+									type="text"
 									className="form-control mb-3"
 									placeholder="Escriba la ID del cliente"
 									value={idClient}
-									onChange={(event) => { searchClient(event); setIdClient(event.target.value) }}
+									onChange={(event) => { searchClient(event); textValid(event, 'idClient') }}
 									disabled={id}
 								/>
 								<input type="text" className="form-control"
@@ -140,7 +156,8 @@ const AddInvoice = () => {
 										type="text"
 										className="form-control"
 										placeholder="Escriba el código del producto"
-										onChange={(event) => { searchProduct(event) }}
+										value={idProduct}
+										onChange={(event) => { searchProduct(event); textValid(event, 'idProduct') }}
 										disabled={id}
 									/>
 									<div className="input-group-append">
@@ -207,7 +224,7 @@ const AddInvoice = () => {
 						<button
 							onClick={(event) => saveInvoice(event)}
 							className="btn btn-primary"
-							disabled={filteredProduct.length !== 1 && addedProduct.length === 0}
+							disabled={filteredProduct.length !== 1 || addedProduct.length === 0 || idClient.length === 0}
 							>Guardar</button>}
 					{id && <button onClick={(event) => savePDF(event)} className="btn btn-secondary ml-2">Descargar PDF</button>}
 				</div>

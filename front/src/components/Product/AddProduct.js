@@ -47,6 +47,7 @@ const AddProduct = () => {
 		}
 	}
 
+	// Validate if the name is only letters and (price, stock) is greater than 0
 	const textValid = (event, key) => {
 		const { value } = event.target;
 		switch (key) {
