@@ -11,7 +11,7 @@ import PdfGenerate from './PDF';
 const AddInvoice = () => {
 	const [date, setDate] = useState('');
 	const [idClient, setIdClient] = useState(0);
-	const [total, setTotal] = useState(0);
+	const [clientName, setClientName] = useState('');
 	const [addedProduct, setAddedProduct] = useState([]);
 	const [products, setProducts] = useState([]);
 	const [filteredProduct, setFilteredProduct] = useState([]);
@@ -24,9 +24,9 @@ const AddInvoice = () => {
 		productService.getAll().then(res => {
 			res.data.map(product => product.subTotal = product.price);
 			res.data.map(product => {
-				product.quantity = [];
-				for (let i = 1; i <= product.stock; i++) product.quantity.push(i);
-				return (product.quantity)
+				product.available = [];
+				for (let i = 1; i <= product.stock; i++) product.available.push(i);
+				return (product.available)
 			});
 			setProducts(res.data);
 			setFilteredProduct(res.data);
@@ -64,52 +64,51 @@ const AddInvoice = () => {
 
 	const saveInvoice = (event) => {
 		event.preventDefault();
+		const getTotal = addedProduct.reduce((total, product) => { return total + product.subTotal }, 0);
+		addedProduct.map((product) => { delete product.stock; delete product.available; return product });
+		addedProduct.map((product) => { if (product.quantity === undefined) product.quantity = 1; return product });
 
-		const invoice = { 
-			date: date ? new Date(date) : new Date(), 
-			idClient: parseInt(idClient), 
-			total: parseFloat(total),
-			products: addedProduct.toString(),
-			id: id, 
+		const invoice = {
+			date: date ? new Date(date) : new Date(),
+			idClient: parseInt(idClient),
+			clientName: `${filteredClient[0].name} ${filteredClient[0].lastName}`,
+			total: getTotal,
+			products: JSON.stringify(addedProduct),
 		};
-		if (id) {
-			// update
-			invoiceService.update(invoice)
-				.then((response) => {
-					console.log('La factura fue actualizada correctamente', response.data);
-					history.push('/invoices');
-				}).catch((error) => {
-					console.log('Se produjo el siguiente error:', error);
-				});
-		} else {
-			// create
-			invoiceService.create(invoice)
-				.then((response) => {
-					console.log('Factura agregada correctamente', response.data);
-					history.push('/invoices');
-				}).catch((error) => {
-					console.log('Se produjo el siguiente error:', error);
-				});
-		}
+		// create
+		invoiceService.create(invoice)
+			.then((response) => {
+				console.log('Factura agregada correctamente', response.data);
+				history.push('/invoices');
+			}).catch((error) => {
+				console.log('Se produjo el siguiente error:', error);
+			});
+
 	}
 
 	const totalProduct = (event, index) => {
 		event.preventDefault();
 		setAddedProduct(addedProduct.map((product, i) => {
-			if (i === index) product.subTotal = product.price * event.target.value;
-			return product}));
+			if (i === index) {
+				product.subTotal = product.price * event.target.value;
+				product.quantity = event.target.value;
+			};
+			return product
+		}));
+
 	}
 
-	const savePDF = (addedProduct) => {PdfGenerate(addedProduct)}
+	const savePDF = (event, addedProduct) => { event.preventDefault(); PdfGenerate(addedProduct) }
 
 	useEffect(() => {
 		if (id) {
 			invoiceService.get(id)
 				.then((invoice) => {
-					const { date, idClient, total } = invoice.data;
+					const { date, idClient, clientName ,products } = invoice.data;
 					setDate(date);
 					setIdClient(idClient);
-					setTotal(total);
+					setClientName(clientName);
+					setAddedProduct(JSON.parse(products));
 				}).catch((error) => {
 					console.log('Se produjo el siguiente error:', error);
 				});
@@ -117,9 +116,8 @@ const AddInvoice = () => {
 	}, [id]);
 
 	useEffect(() => {
-		initProducts();
-		initClients();
-	}, []);
+		if (!id) { initProducts(); initClients(); }
+	}, [id]);
 
 	return (
 		<Fragment>
@@ -140,10 +138,13 @@ const AddInvoice = () => {
 									type="text"
 									className="form-control mb-3"
 									placeholder="Escriba la ID del cliente"
+									value={idClient}
 									onChange={(event) => { searchClient(event); setIdClient(event.target.value) }}
+									disabled={id}
 								/>
 								<input type="text" className="form-control"
-									value={filteredClient.length === 1 ? `${filteredClient[0].name} ${filteredClient[0].lastName}` : ''} disabled />
+									value={
+										filteredClient.length === 1 ? `${filteredClient[0].name} ${filteredClient[0].lastName}` : clientName ? clientName : ''} disabled />
 							</td>
 							<td>
 								<div className="input-group mb-3">
@@ -152,6 +153,7 @@ const AddInvoice = () => {
 										className="form-control"
 										placeholder="Escriba el código del producto"
 										onChange={(event) => { searchProduct(event) }}
+										disabled={id}
 									/>
 									<div className="input-group-append">
 										<button
@@ -192,18 +194,24 @@ const AddInvoice = () => {
 								<td className="text-center">{product.id}</td>
 								<td>{product.name}</td>
 								<td className="text-center">$ {product.price}</td>
+
 								<td className="text-center">
-									<select className="form-control" onChange={(event) => totalProduct(event, index)}>
-										{product.quantity.map((quantity, index) => {
-											return (<option key={index} value={quantity}>{quantity}</option>)
-										})}
-									</select>
+									{id ? product.quantity
+										: <select className="form-control" defaultValue="0" onChange={(event) => { totalProduct(event, index); }}>
+											{product.available.map((available, index) => {
+												return (<option key={index} value={available}>{available}</option>)
+											})}
+										</select>
+									}
 								</td>
 								<td className="text-center">$ {product.subTotal}</td>
 								<td className="text-center">
-									<Link to={`/add-invoice`} className="text-danger m-2" onClick={(event) => { deleteProduct(index) }}>
-										<FaIcons.FaTrashAlt />
-									</Link>
+									{!id
+										? <Link to={`/add-invoice`} className="text-danger m-2" onClick={(event) => { deleteProduct(index) }}>
+											<FaIcons.FaTrashAlt />
+										</Link>
+										: 'No disponible'
+									}
 								</td>
 							</tr>
 						))}
@@ -213,6 +221,7 @@ const AddInvoice = () => {
 					<div className="row">
 						<div className="col-md-12 text-right">
 							<h2>
+
 								Total: $ {addedProduct.reduce((total, product) => { return total + product.subTotal }, 0)}
 							</h2>
 						</div>
@@ -220,7 +229,7 @@ const AddInvoice = () => {
 				</div>
 				<div>
 					<button onClick={(event) => saveInvoice(event)} className="btn btn-primary">Guardar</button>
-					<button onClick={savePDF(addedProduct)} className="btn btn-secondary ml-2">
+					<button onClick={(event) => savePDF(event, addedProduct)} className="btn btn-secondary ml-2">
 						Descargar PDF
 					</button>
 				</div>
