@@ -21,7 +21,7 @@ public class Invoice {
     @Column(nullable = false)
     private Date date;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="LONGTEXT")
     private String products;
 
     @Column(nullable = false)
