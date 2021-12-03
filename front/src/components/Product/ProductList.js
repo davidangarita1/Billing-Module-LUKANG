@@ -35,6 +35,10 @@ const ProductList = () => {
 		})
 	}
 
+	const currencyFormat = (num) => {
+		return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+	}
+
 	useEffect(() => {
 		init();
 	}, []);
@@ -79,7 +83,7 @@ const ProductList = () => {
 							<tr key={product.id}>
 								<td className="text-center">{product.id}</td>
 								<td>{product.name}</td>
-								<td className="text-center">$ {product.price}</td>
+								<td className="text-center">{currencyFormat(product.price)}</td>
 								<td className="text-center">{product.stock}</td>
 								<td>{product.category}</td>
 								<td className="text-center">

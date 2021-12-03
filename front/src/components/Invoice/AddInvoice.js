@@ -54,13 +54,9 @@ const AddInvoice = () => {
 		setFilteredClient(filter);
 	}
 
-	const addProduct = (product) => {
-		setAddedProduct([...addedProduct, product]);
-	}
+	const addProduct = (product) => { setAddedProduct([...addedProduct, product]) }
 
-	const deleteProduct = (index) => {
-		setAddedProduct(addedProduct.filter((product, i) => i !== index));
-	}
+	const deleteProduct = (index) => { setAddedProduct(addedProduct.filter((product, i) => i !== index)); }
 
 	const saveInvoice = (event) => {
 		event.preventDefault();
@@ -83,7 +79,10 @@ const AddInvoice = () => {
 			}).catch((error) => {
 				console.log('Se produjo el siguiente error:', error);
 			});
+	}
 
+	const currencyFormat = (num) => {
+		return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 	}
 
 	const totalProduct = (event, index) => {
@@ -98,7 +97,10 @@ const AddInvoice = () => {
 
 	}
 
-	const savePDF = (event, addedProduct) => { event.preventDefault(); PdfGenerate(addedProduct) }
+	const savePDF = (event) => {
+		event.preventDefault();
+		PdfGenerate(id, date.substring(0, 10), idClient, clientName, addedProduct);
+	}
 
 	useEffect(() => {
 		if (id) {
@@ -193,7 +195,7 @@ const AddInvoice = () => {
 							<tr key={index} >
 								<td className="text-center">{product.id}</td>
 								<td>{product.name}</td>
-								<td className="text-center">$ {product.price}</td>
+								<td className="text-center">{currencyFormat(product.price)}</td>
 
 								<td className="text-center">
 									{id ? product.quantity
@@ -204,7 +206,7 @@ const AddInvoice = () => {
 										</select>
 									}
 								</td>
-								<td className="text-center">$ {product.subTotal}</td>
+								<td className="text-center">{currencyFormat(product.subTotal)}</td>
 								<td className="text-center">
 									{!id
 										? <Link to={`/add-invoice`} className="text-danger m-2" onClick={(event) => { deleteProduct(index) }}>
@@ -221,15 +223,14 @@ const AddInvoice = () => {
 					<div className="row">
 						<div className="col-md-12 text-right">
 							<h2>
-
-								Total: $ {addedProduct.reduce((total, product) => { return total + product.subTotal }, 0)}
+								Total: {currencyFormat(addedProduct.reduce((total, product) => { return total + product.subTotal }, 0))}
 							</h2>
 						</div>
 					</div>
 				</div>
 				<div>
 					{!id && <button onClick={(event) => saveInvoice(event)} className="btn btn-primary">Guardar</button>}
-					{id && <button onClick={(event) => savePDF(event, addedProduct)} className="btn btn-secondary ml-2">Descargar PDF</button>}
+					{id && <button onClick={(event) => savePDF(event)} className="btn btn-secondary ml-2">Descargar PDF</button>}
 				</div>
 				<hr />
 				<Link to="/invoices">Volver a la lista</Link>

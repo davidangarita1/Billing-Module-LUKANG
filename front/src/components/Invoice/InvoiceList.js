@@ -26,6 +26,10 @@ const InvoiceList = () => {
 		setFilteredInvoices(filter);
 	}
 
+	const currencyFormat = (num) => {
+		return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+	}
+
 	useEffect(() => {
 		init();
 	}, []);
@@ -70,7 +74,7 @@ const InvoiceList = () => {
 								<td>{invoice.id}</td>
 								<td>{invoice.date}</td>
 								<td>{invoice.idClient}</td>
-								<td>$ {invoice.total}</td>
+								<td>{currencyFormat(invoice.total)}</td>
 								<td className="text-center">
 									<Link to={`/invoice/show/${invoice.id}`} className="text-info m-2">
 										<FaIcons.FaEye />
