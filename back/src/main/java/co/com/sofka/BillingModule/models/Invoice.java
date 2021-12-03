@@ -16,6 +16,9 @@ public class Invoice {
     private Long idClient;
 
     @Column(nullable = false)
+    private String clientName;
+
+    @Column(nullable = false)
     private Date date;
 
     @Column(nullable = false)
@@ -38,6 +41,14 @@ public class Invoice {
 
     public void setIdClient(Long idClient) {
         this.idClient = idClient;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
     public Date getDate() {
