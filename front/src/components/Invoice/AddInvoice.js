@@ -104,7 +104,7 @@ const AddInvoice = () => {
 		if (id) {
 			invoiceService.get(id)
 				.then((invoice) => {
-					const { date, idClient, clientName ,products } = invoice.data;
+					const { date, idClient, clientName, products } = invoice.data;
 					setDate(date);
 					setIdClient(idClient);
 					setClientName(clientName);
@@ -197,7 +197,7 @@ const AddInvoice = () => {
 
 								<td className="text-center">
 									{id ? product.quantity
-										: <select className="form-control" defaultValue="0" onChange={(event) => { totalProduct(event, index); }}>
+										: <select className="form-control" onChange={(event) => { totalProduct(event, index); }}>
 											{product.available.map((available, index) => {
 												return (<option key={index} value={available}>{available}</option>)
 											})}
@@ -228,10 +228,8 @@ const AddInvoice = () => {
 					</div>
 				</div>
 				<div>
-					<button onClick={(event) => saveInvoice(event)} className="btn btn-primary">Guardar</button>
-					<button onClick={(event) => savePDF(event, addedProduct)} className="btn btn-secondary ml-2">
-						Descargar PDF
-					</button>
+					{!id && <button onClick={(event) => saveInvoice(event)} className="btn btn-primary">Guardar</button>}
+					{id && <button onClick={(event) => savePDF(event, addedProduct)} className="btn btn-secondary ml-2">Descargar PDF</button>}
 				</div>
 				<hr />
 				<Link to="/invoices">Volver a la lista</Link>
